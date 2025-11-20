@@ -7,7 +7,7 @@ Téléchargement ` gdx-liftoff-1.14.0.0.jar`
 **Main Class :** `Despotisme`
 
 ### Lancement du jeu
-`./gradlew liwjgl3:run`
+`./gradlew lwjgl3:run`
 
 Vérification de `gradle/gradle-properties-jvm.properties` :
 
