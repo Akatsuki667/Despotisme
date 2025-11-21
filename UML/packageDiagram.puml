@@ -1,0 +1,45 @@
+@startuml Package
+
+package "com.despotime" {
+}
+
+package "com.despotisme.screens" as screens {
+}
+
+package "com.despotisme.ui" as ui {
+}
+
+package "com.despotisme.managers" as managers {
+}
+
+package "com.despotisme.factories" as factories {
+}
+
+package "com.despotisme.entities" as entities {
+}
+
+package "com.despotisme.constants" as constants {
+}
+
+' Application principale
+Despotisme --> screens : lance
+
+' Screens vers autres packages
+screens --> ui : utilise
+screens --> managers : utilise
+screens --> entities : affiche
+
+' UI vers entities
+ui --> entities : affiche infos
+
+' Managers vers factories et entities
+managers --> factories : délègue création
+managers --> entities : gère
+
+' Factories vers entities
+factories --> entities : crée
+
+' Entities vers constants
+entities --> constants : utilise
+
+@enduml

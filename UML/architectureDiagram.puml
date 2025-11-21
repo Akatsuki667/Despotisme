@@ -1,0 +1,95 @@
+@startuml
+
+package "COUCHE PRÉSENTATION" <<Layer>> {
+    component "Screens" <<Module>> {
+        [MainMenuScreen]
+        [MapScreen]
+    }
+
+    component "UI" <<Module>> {
+        [GameHUD]
+        [MiniMapView]
+        [ResourcePanel]
+        [UnitPanel]
+    }
+
+    note right of "Screens"
+    Gère l'affichage et les interractions utilisateur
+    end note
+}
+
+package "COUCHE MÉTIER (Business logic)" <<Layer>> {
+    component "Managers" <<Module>> {
+        [GameManger]
+    }
+
+    note right of "Managers"
+    Orchestration
+    end note
+}
+
+package "COUCHE DOMAINE (Domain Model)" <<Layer>> {
+    component "Entities" <<Modules>> {
+        [Unit]
+        [Settler]
+        [CombatUnit]
+        [City]
+        [Location]
+        [Move]
+        [Fight]
+    }
+
+    component "Factories" <<Modules>> {
+        [UnitFactory]
+        [CityFactory]
+        [UnitFactoryImpl]
+        [CityFactoryImpl]
+    }
+
+    note right of "Entities"
+    Structure de données du jeu
+    end note
+
+    note right of "Factories"
+    Pattern Factory
+    Création d'entités
+    end note
+}
+
+package "COUCHE UTILITAIRES" <<Layer>> {
+    component "Constants" <<Module>> {
+        [MapConstants]
+        [UnitsConstants]
+    }
+
+    note right of "Constants"
+    Valeurs partagés
+    end note
+}
+
+' DÉPENDANCES
+
+' Présentation -> Métier
+[MapScreen] --> [GameManger] : Délègue actions
+
+' Présentation -> Domaine (affichage)
+[MapScreen] ..> [Unit] : Affiche
+[MapScreen] ..> [City] : Affiche
+[GameHUD] ..> [Unit] : Affiche les informations
+[UnitPanel] ..> [Unit] : Affiche les détails
+
+' Métier -> Domaine
+[GameManager] --> [UnitFactoryImpl] : Utilise
+[GameManager] --> [CityFactoryImpl] : Utilise
+[GameManager] --> [Unit] : Gestion liste
+[GameManager] --> [City] : Gestion liste
+
+' Factories -> Entities
+[UnitFactoryImpl] --> [Settler] : <<create>>
+[CityFactoryImpl] --> [City] : <<create>>
+
+' Domaine -> Utilitaires
+[Unit] ..> [UnitConstants] : Utilise
+[City] ..> [CityConstants] : Utilise
+
+@enduml

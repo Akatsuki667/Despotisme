@@ -1,0 +1,56 @@
+@startuml Pattern Factory
+
+' Interfaces
+interface CityFactory {
+    + createCity(cityName, x, y) : City
+}
+
+interface UnitFactory {
+    + createUnit(unit, x, y) : Unit
+}
+
+' Classes
+class CityFactoryImpl {
+    + createCity(cityName, x, y) : City
+}
+
+class UnitFactoryImpl {
+    + createUnit(unit, x, y) : Unit
+}
+
+class GameManager {
+    - UnitFactory : UnitFactoryImpl
+    - CityFactory : CityFactoryImpl
+    - units : List<Unit>
+    - cities : List<City>
+
+    + createUnit(unit, x, y) : Unit
+    + produceUnit(unit, city) : Unit
+    + foundCity(cityName, settler) : City
+}
+
+abstract class Unit {
+    # moves : interface
+    # name : String
+}
+
+class Settler extends Unit {
+    + Settler(x, y)
+}
+
+class City {
+    - cityName : String
+}
+
+' Relations
+CityFactoryImpl ..|> CityFactory
+UnitFactoryImpl ..|> UnitFactory
+
+GameManager --> UnitFactoryImpl : utilise
+GameManager --> CityFactoryImpl : utilise
+
+UnitFactoryImpl ..> Unit : <<create>>
+UnitFactoryImpl ..> Settler : <<create>>
+CityFactoryImpl ..> City : <<create>>
+
+@enduml

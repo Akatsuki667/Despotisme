@@ -1,0 +1,45 @@
+@startuml Hiérarchie des Entités
+
+' Interfaces
+interface Move {
+    + moveUp()
+    + moveDown()
+    + moveLeft()
+    + moveRight()
+}
+
+interface Fight {
+  + attack()
+}
+
+' Classes
+abstract class Unit {
+    # moves : int
+    # name : String
+    # selected : boolean
+    # x : float
+    # y : float
+    + render(batch)
+    + setDirection(direction)
+    + setPosition(x, y)
+}
+
+class Settler {
+    + Settler(x, y)
+}
+
+class CombatUnit {
+    # damageInflicted : int
+    # hp : int
+    + CombatUnit(name, x, y)
+}
+
+' Relations
+Unit <|-- Settler
+Unit <|-- CombatUnit
+
+Settler ..|> Move
+CombatUnit ..|> Move
+CombatUnit ..|> Fight
+
+@enduml
